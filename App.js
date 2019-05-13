@@ -18,7 +18,8 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-var MyApp = class App extends Component<Props> {
+
+class App extends Component<Props> {
   render() {
     return (
       <View style={styles.container}>
@@ -29,9 +30,9 @@ var MyApp = class App extends Component<Props> {
     );
   }
 }
+App = codePush(App);
 
-MyApp = codePush(MyApp);
-export default MyApp;
+export default App;
 
 const styles = StyleSheet.create({
   container: {
