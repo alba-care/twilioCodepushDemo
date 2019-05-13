@@ -1,0 +1,3 @@
+rootProject.name = 'twilioCodepushDemo'
+
+include ':app'
