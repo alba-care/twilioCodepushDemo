@@ -1,3 +1,4 @@
 <resources>
+	<string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">996d3e24-b222-43c2-86d8-ba85d881ef74</string>
     <string name="app_name">twilioCodepushDemo</string>
 </resources>
