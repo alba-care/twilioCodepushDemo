@@ -8,7 +8,7 @@ jobs:
     steps:
       - run: echo Hello World
       - run: npm install
-      - run: npm install -g appcenter-cli
+      - run: sudo npm install -g appcenter-cli
       - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
 
 
