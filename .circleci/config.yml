@@ -7,6 +7,9 @@ jobs:
       - image: "circleci/node:9.6.1"
     steps:
       - run: echo Hello World
+      - run: npm install
+      - run: npm install -g appcenter-cli
+      - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
 
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
