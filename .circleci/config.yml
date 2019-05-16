@@ -5,7 +5,7 @@ jobs:
   node:
     working_directory: ~/twilioCodepushDemo
     docker:
-      - image: "circleci/node:9.6.1"
+      - image: "circleci/node:8"
     steps:
       - checkout
 
@@ -35,7 +35,7 @@ jobs:
   codepush: 
     working_directory: ~/twilioCodepushDemo
     docker:
-      - image: "circleci/node:9.6.1"
+      - image: "circleci/node:8"
     steps:
       - run: sudo npm install -g appcenter-cli
       - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
