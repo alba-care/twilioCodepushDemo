@@ -31,7 +31,7 @@ jobs:
           root: ~/twilioCodepushDemo
           paths:
             - node_modules
-            
+
   codepush: 
     working_directory: ~/twilioCodepushDemo
     docker:
@@ -49,5 +49,5 @@ workflows:
     jobs:
       - node
       - codepush
-          requires:
-            - node
+        requires:
+          - node
