@@ -61,20 +61,23 @@ workflows:
       - hold: # <<< A job that will require manual approval in the CircleCI web application.
           type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
           requires: # We only run the "hold" job when test2 has succeeded
-           - node
-          branches:
-            only:
-              - master
+            - node
+          filters:
+            branches:
+              only:
+                - master
       - codepush:
           requires:
             - hold
-          branches:
-            only:
-              - develop
-              - master
+          filters:
+            branches:
+              only:
+                - master
+                - develop
       - build:
           requires:
             - hold
-          tags:
-            only:
-              - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+          filters:
+            tags:
+              only:
+                - /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
