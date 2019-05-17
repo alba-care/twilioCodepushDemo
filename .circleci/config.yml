@@ -13,6 +13,7 @@ jobs:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
 
       - run: yarn install
+      - run: sudo npm install -g appcenter-cli
 
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}-{{ arch }}
@@ -30,8 +31,16 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/twilioCodepushDemo
-      - run: sudo npm install -g appcenter-cli
       - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
+
+  build: 
+    working_directory: ~/twilioCodepushDemo
+    docker:
+      - image: "circleci/node:8"
+    steps:
+      - attach_workspace:
+          at: ~/twilioCodepushDemo
+      - run: appcenter build queue -a david-alba/twilioCodepushDemo-1 --branch master --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
 
 
 # Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
@@ -40,7 +49,31 @@ workflows:
   Test and deploy:
     # Run the welcome/run job in its own container
     jobs:
-      - node
+      - node:
+          branches:
+            only:
+              - develop
+              - master
+          tags:
+            only:
+              - /v(\d+\.)?(\d+\.)?(\*|\d+)/
+      - hold: # <<< A job that will require manual approval in the CircleCI web application.
+          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+          requires: # We only run the "hold" job when test2 has succeeded
+           - node
+          branches:
+            only:
+              - master
       - codepush:
           requires:
-            - node
+            - hold
+          branches:
+            only:
+              - develop
+              - master
+      - build:
+          requires:
+            - hold
+          tags:
+            only:
+              - /v(\d+\.)?(\d+\.)?(\*|\d+)/
