@@ -68,12 +68,18 @@ workflows:
                 - master
       - codepush:
           requires:
+            - node
+          filters:
+            branches:
+              only:
+                - develop
+      - codepush:
+          requires:
             - hold
           filters:
             branches:
               only:
                 - master
-                - develop
       - build:
           requires:
             - hold
