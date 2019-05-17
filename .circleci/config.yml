@@ -21,17 +21,15 @@ jobs:
 
       - persist_to_workspace:
           root: ~/twilioCodepushDemo
-          paths:
-            - node_modules
-
-      - run: sudo npm install -g appcenter-cli
-      - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
+          paths: .
 
   codepush: 
     working_directory: ~/twilioCodepushDemo
     docker:
       - image: "circleci/node:8"
     steps:
+      - attach_workspace:
+          at: ~/twilioCodepushDemo
       - run: sudo npm install -g appcenter-cli
       - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
 
@@ -43,3 +41,6 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - node
+      - codepush:
+          requires:
+            - node
