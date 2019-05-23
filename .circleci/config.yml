@@ -7,6 +7,7 @@ jobs:
     docker:
       - image: "circleci/node:8"
     steps:
+      - run: cd app
       - checkout
 
       - restore_cache:
@@ -24,7 +25,7 @@ jobs:
           paths: .
 
   codepush: 
-    working_directory: ~/twilioCodepushDemo
+    working_directory: ~/twilioCodepushDemo/app
     docker:
       - image: "circleci/node:8"
     steps:
@@ -34,7 +35,7 @@ jobs:
       - run: appcenter codepush release-react -a david-alba/twilioCodepushDemo-1 --token $CODEPUSH_TOKEN --quiet --deployment-name Staging
 
   build: 
-    working_directory: ~/twilioCodepushDemo
+    working_directory: ~/twilioCodepushDemo/app
     docker:
       - image: "circleci/node:8"
     steps:
